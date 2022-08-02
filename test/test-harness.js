@@ -7,6 +7,7 @@ const tapzero = require('tapzero')
 const testHarness = require('tapzero/harness')
 
 const network = require("../utils/network")
+const blueprint = require("../utils/blueprint")
 
 const vars = {raw: true}
 
@@ -25,7 +26,7 @@ class TestHarness {
 
             const pb_contract = src_output.contracts["src/test/PersonBytes.vy"].PersonBytes
             const pb_factory = new ethers.ContractFactory(
-                pb_contract.abi, this.add_preamble(pb_contract.evm.bytecode.object), vars.signer)
+                pb_contract.abi, blueprint.generate(pb_contract.evm.bytecode.object), vars.signer)
 
             await network.ready()
             vars.multifab = await mf_factory.deploy()
@@ -42,14 +43,6 @@ class TestHarness {
                 network.exit()
             }
         }, 0)
-    }
-
-    add_preamble(bytecode) {
-        const blueprint_preamble = "fe7100"
-        const blueprint_bytecode = "0x" + blueprint_preamble + bytecode.slice(2)
-        const len_bytes = (blueprint_bytecode.length - 2) / 2
-        const deploy_bytecode = "0x61" + len_bytes.toString(16).padStart(4, "0") + "3d81600a3d39f3"
-        return deploy_bytecode + blueprint_bytecode.slice(2)
     }
 }
 
