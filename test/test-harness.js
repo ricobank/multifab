@@ -30,8 +30,9 @@ class TestHarness {
 
             await network.ready()
             vars.multifab = await mf_factory.deploy()
-            vars.person_bytes_blueprint = await pb_factory.deploy([])
-            vars.pb_abi = pb_contract.abi
+            vars.pb_blueprint = await pb_factory.deploy([])
+            vars.pb_contract = pb_contract
+            vars.provider = provider
             vars.raw = false
         }
         Object.assign(this, vars)
