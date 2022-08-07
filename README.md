@@ -21,7 +21,8 @@ that contract built with those constructor arguments.
 
 To create blueprints you deploy bytecode in the format of [EIP-5202](EIP-5202: Blueprint contract format). A
 [module](utils/blueprint.js) in this repository can be used to generate bytecode in that format from your compiled
-bytecode. Usage is demonstrated in tests.
+bytecode, usage is demonstrated in tests. Alternatively the vyper compiler can be used like
+"vyper -f blueprint_bytecode <foo.vy>" 
 
 You may want to use [dmap](https://dmap.sh/) to share the address of your blueprint.
 

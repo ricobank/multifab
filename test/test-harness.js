@@ -24,14 +24,14 @@ class TestHarness {
             const mf_factory = new ethers.ContractFactory(
                 mf_contract.abi, mf_contract.evm.bytecode.object, vars.signer)
 
-            const pb_contract = src_output.contracts["src/test/PersonBytes.vy"].PersonBytes
-            const pb_factory = new ethers.ContractFactory(
-                pb_contract.abi, blueprint.generate(pb_contract.evm.bytecode.object), vars.signer)
+            const pers_contract = src_output.contracts["src/test/Person.vy"].Person
+            const pers_factory = new ethers.ContractFactory(
+                pers_contract.abi, blueprint.generate(pers_contract.evm.bytecode.object), vars.signer)
 
             await network.ready()
             vars.multifab = await mf_factory.deploy()
-            vars.pb_blueprint = await pb_factory.deploy([])
-            vars.pb_contract = pb_contract
+            vars.pers_blueprint = await pers_factory.deploy(Buffer.from(""), Buffer.from(""), 0)
+            vars.pers_contract = pers_contract
             vars.provider = provider
             vars.raw = false
         }
