@@ -23,6 +23,19 @@ TestHarness.test('fab from blueprint and contract gets correct constructor args'
     assert.equal(res_year, year)
 })
 
+TestHarness.test('can verify instance was built from blueprint', async (harness, assert) => {
+    const name = "dan"
+    const last = "eli"
+    const year = 12345
+    const args = ethers.utils.defaultAbiCoder.encode([ "string", "string", "uint" ], [ name, last, year ])
+
+    const receipt = await send(harness.multifab.build, harness.pers_blueprint.address, args)
+    const [, , instance, ] = receipt.events.find(event => event.event === 'Built').args
+
+    const built_bp = await harness.multifab.built(instance)
+    assert.equal(built_bp, harness.pers_blueprint.address)
+})
+
 TestHarness.test('verify blueprint code matches original', async (harness, assert) => {
     const blueprint_code = await harness.provider.getCode(harness.pers_blueprint.address)
     const original = harness.pers_contract.evm.bytecode.object
