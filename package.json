@@ -2,7 +2,8 @@
   "name": "vyper-multifab",
   "version": "0.1.0",
   "scripts": {
-    "test": "snek make && cd test && node multifab-test.js"
+    "pretest": "snek make",
+    "test": "cd test && node multifab-test.js"
   },
   "devDependencies": {
     "ethers": "^5.6.9",
